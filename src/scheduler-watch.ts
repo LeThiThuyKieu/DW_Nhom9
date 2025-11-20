@@ -1,6 +1,7 @@
 import cron, { ScheduledTask } from "node-cron";
 import fs from "fs";
 import { XMLParser } from "fast-xml-parser";
+// npm install fast-xml-parser
 import { runScheduledETL } from "./etl_process";
 
 let currentTask: ScheduledTask | null = null;
