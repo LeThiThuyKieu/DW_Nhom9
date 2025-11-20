@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datawarehouse-config>
+    <environment>DEV</environment>
+    <databases>
+        <weatherdb>
+            <host>localhost</host>
+            <port>3306</port>
+            <database>weatherdb_dev</database>
+            <username>root</username>
+            <password></password>
+        </weatherdb>
+        <controldb>
+            <host>localhost</host>
+            <port>3306</port>
+            <database>controldb_dev</database>
+            <username>root</username>
+            <password></password>
+        </controldb>
+    </databases>
+    
+    <staging>
+        <directory>staging_data_dev</directory>
+        <file_pattern>data_yyyymmdd_hhmm.csv</file_pattern>
+        <retention_days>7</retention_days>
+    </staging>
+    
+    <apis>
+        <weather-api>
+            <name>Open-Meteo Weather API</name>
+            <url>https://api.open-meteo.com/v1/forecast</url>
+            <cities>
+                <city name="Hanoi" latitude="21.0278" longitude="105.8342"/>
+                <city name="Tuyen Quang" latitude="21.7767" longitude="105.2280"/>
+                <city name="Lao Cai" latitude="22.4809" longitude="103.9750"/>
+                <city name="Thai Nguyen" latitude="21.5942" longitude="105.8482"/>
+                <city name="Phu Tho" latitude="21.3227" longitude="105.4020"/>
+                <city name="Bac Ninh" latitude="21.1861" longitude="106.0763"/>
+                <city name="Hung Yen" latitude="20.6464" longitude="106.0511"/>
+                <city name="Hai Phong" latitude="20.8449" longitude="106.6881"/>
+                <city name="Ninh Binh" latitude="20.2506" longitude="105.9740"/>
+                <city name="Quang Tri" latitude="16.8193" longitude="107.1012"/>
+                <city name="Da Nang" latitude="16.0471" longitude="108.2068"/>
+                <city name="Quang Ngai" latitude="15.1219" longitude="108.8040"/>
+                <city name="Gia Lai" latitude="13.8073" longitude="108.1090"/>
+                <city name="Khanh Hoa" latitude="12.2388" longitude="109.1967"/>
+                <city name="Lam Dong" latitude="11.9404" longitude="108.4583"/>
+                <city name="Dak Lak" latitude="12.7100" longitude="108.2378"/>
+                <city name="Ho Chi Minh City" latitude="10.8231" longitude="106.6297"/>
+                <city name="Dong Nai" latitude="10.9453" longitude="106.8249"/>
+                <city name="Tay Ninh" latitude="11.3146" longitude="106.0980"/>
+                <city name="Can Tho" latitude="10.0452" longitude="105.7469"/>
+                <city name="Vinh Long" latitude="10.2530" longitude="105.9737"/>
+                <city name="Dong Thap" latitude="10.4930" longitude="105.6880"/>
+                <city name="Ca Mau" latitude="9.1768" longitude="105.1524"/>
+                <city name="An Giang" latitude="10.5216" longitude="105.1259"/>
+                <city name="Thua Thien Hue" latitude="16.4637" longitude="107.5905"/>
+                <city name="Lai Chau" latitude="22.3680" longitude="103.3119"/>
+                <city name="Dien Bien" latitude="21.3860" longitude="103.0167"/>
+                <city name="Son La" latitude="21.3280" longitude="103.9145"/>
+                <city name="Lang Son" latitude="21.8537" longitude="106.7615"/>
+                <city name="Quang Ninh" latitude="21.0064" longitude="107.2925"/>
+                <city name="Thanh Hoa" latitude="19.8067" longitude="105.7764"/>
+                <city name="Nghe An" latitude="18.6736" longitude="105.6923"/>
+                <city name="Ha Tinh" latitude="18.3428" longitude="105.9057"/>
+                <city name="Cao Bang" latitude="22.6653" longitude="106.2570"/>
+            </cities>
+
+            <parameters>
+                <hourly>temperature_2m,relative_humidity_2m</hourly>
+            </parameters>
+        </weather-api>
+    </apis>
+    
+    <etl-processes>
+        <fetch>
+            <enabled>true</enabled>
+            <schedule>0 7 * * *</schedule>
+            <timeout>60</timeout>
+        </fetch>
+        <load>
+            <enabled>true</enabled>
+            <batch_size>100</batch_size>
+            <truncate_before_load>true</truncate_before_load>
+        </load>
+        <transform>
+            <enabled>true</enabled>
+            <batch_size>100</batch_size>
+        </transform>
+    </etl-processes>
+    
+    <logging>
+        <level>DEBUG</level>
+        <file>logs/etl-dev.log</file>
+        <max_size>5MB</max_size>
+        <backup_count>3</backup_count>
+    </logging>
+</datawarehouse-config>
+
+

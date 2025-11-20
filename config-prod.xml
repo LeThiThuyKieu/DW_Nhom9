@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datawarehouse-config>
+    <environment>PROD</environment>
+    <databases>
+        <weatherdb>
+            <host>192.168.40.129</host>
+            <port>3306</port>
+            <database>weatherdb_prod</database>
+            <username>etluser</username>
+            <password>123</password>
+        </weatherdb>
+        <controldb>
+            <host>192.168.40.129</host>
+            <port>3306</port>
+            <database>controldb_prod</database>
+            <username>etluser</username>
+            <password>123</password>
+        </controldb>
+    </databases>
+    
+    <staging>
+        <directory>staging_data_prod</directory>
+        <file_pattern>data_yyyymmdd_hhmm.csv</file_pattern>
+        <retention_days>30</retention_days>
+    </staging>
+    
+    <apis>
+        <weather-api>
+            <name>Open-Meteo Weather API</name>
+            <url>https://api.open-meteo.com/v1/forecast</url>
+            <cities>
+                <city name="Ho Chi Minh City" latitude="10.82" longitude="106.63"/>
+                <city name="Hanoi" latitude="21.02" longitude="105.84"/>
+                <city name="Da Nang" latitude="16.05" longitude="108.21"/>
+                <city name="Can Tho" latitude="10.05" longitude="105.78"/>
+                <city name="Hai Phong" latitude="20.86" longitude="106.68"/>
+            </cities>
+            <parameters>
+                <hourly>temperature_2m,relative_humidity_2m</hourly>
+            </parameters>
+        </weather-api>
+    </apis>
+    
+    <etl-processes>
+        <fetch>
+            <enabled>true</enabled>
+            <schedule>0 */6 * * *</schedule>
+            <timeout>300</timeout>
+        </fetch>
+        <load>
+            <enabled>true</enabled>
+            <batch_size>1000</batch_size>
+            <truncate_before_load>true</truncate_before_load>
+        </load>
+        <transform>
+            <enabled>true</enabled>
+            <batch_size>1000</batch_size>
+        </transform>
+    </etl-processes>
+    
+    <logging>
+        <level>INFO</level>
+        <file>logs/etl-prod.log</file>
+        <max_size>10MB</max_size>
+        <backup_count>10</backup_count>
+    </logging>
+</datawarehouse-config>
